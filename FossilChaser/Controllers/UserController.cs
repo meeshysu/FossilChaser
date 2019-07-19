@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FossilChaser.Data;
 using FossilChaser.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,25 +16,25 @@ namespace FossilChaser.Controllers
         [ApiController]
         public class PaymentInformationController : ControllerBase
         {
+            readonly CreateProductRequestValidator _validator;
             readonly UserRepository _repository;
-            readonly UserValidator _validator;
 
             public PaymentInformationController(UserRepository repository)
             {
                 _repository = repository;
-                _validator = new UserValidator();
+                _validator = new CreateProductRequestValidator();
             }
 
             //creating a new user
             [HttpPost]
-            public ActionResult AddProduct(CreateUserRequest createRequest)
+            public ActionResult AddUser(CreateUserRequest createRequest)
             {
                 if (_validator.Validate(createRequest))
                 {
                     return BadRequest("All product information must be filled out.");
                 }
 
-                var newProduct = _repository.AddProduct();
+                var newUser = _repository.AddUser();
 
                 return Created($"api/user/{newUser.Id}", newUser);
             }
@@ -48,7 +49,7 @@ namespace FossilChaser.Controllers
 
             //get single user 
             [HttpGet("getSingleUser/{id}")]
-            public ActionResult GetSingleProduct(int id)
+            public ActionResult GetSingleUser(int id)
             {
                 var singleUser = _repository.GetSingleUser(id);
                 return Ok(singleUser);
@@ -56,9 +57,9 @@ namespace FossilChaser.Controllers
 
             //update user
             [HttpPut("{id}")]
-            public ActionResult UpdateSingleProduct(User user)
+            public ActionResult UpdateSingleUser(User user)
             {
-                var updateUser = _repository.UpdateUser(user);
+                var updateUser = _repository.UpdateSingleUser(user);
                 return Ok(updateUser);
             }
 
@@ -66,7 +67,7 @@ namespace FossilChaser.Controllers
             [HttpDelete("{id}")]
             public ActionResult DeleteSingleUser(int id)
             {
-                var deletedUser = _repository.DeleteSingleUser(id);
+                var deletedUser = _repository.DeleteUser(id);
                 return Ok(deletedUser);
             }
         }
@@ -75,8 +76,8 @@ namespace FossilChaser.Controllers
         {
             public bool Validate(CreateUserRequest requestToValidate)
             {
-                return string.IsNullOrEmpty(requestToValidate.Title)
-                    || string.IsNullOrEmpty(requestToValidate.Description);
+                return string.IsNullOrEmpty(requestToValidate.Username)
+                    || string.IsNullOrEmpty(requestToValidate.Password);
             }
         }
     }

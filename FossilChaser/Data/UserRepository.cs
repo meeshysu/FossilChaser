@@ -12,20 +12,20 @@ namespace FossilChaser.Data
     {
         const string ConnectionString = "Server=localhost;Database=FossilChaser;Trusted_Connection=True;";
 
-        public User AddUser(int id, string userName, string password, string favorite)
+        public User AddUser(string userName, string password, string favorite)
         {
             using (var db = new SqlConnection(ConnectionString))
             {
                 var newUser = db.QueryFirstOrDefault<User>(
-                                                                @"insert into User (id, userName, password, favorite)
+                                                                @"insert into User (userName, password, favorite)
                                                                 Output inserted.*
-                                                                values (@id, @userName, @password, @favorite)
+                                                                values (@userName, @password, @favorite)
                                                                 select * from User",
-                                                                new { id, userName, password, favorite });
+                                                                new { userName, password, favorite });
 
-                if (User != null)
+                if (newUser != null)
                 {
-                    return User;
+                    return newUser;
                 }
             }
             throw new System.Exception("No new user found.");
@@ -41,7 +41,7 @@ namespace FossilChaser.Data
             }
         }
 
-        public User GetSingleUsert(int id)
+        public User GetSingleUser(int id)
         {
             using (var db = new SqlConnection(ConnectionString))
             {
@@ -54,7 +54,7 @@ namespace FossilChaser.Data
         }
 
 
-        public User UpdateSingleProduct(User singleUser)
+        public User UpdateSingleUser(User singleUser)
         {
             using (var db = new SqlConnection(ConnectionString))
             {
