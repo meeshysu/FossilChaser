@@ -13,13 +13,10 @@ namespace FossilChaser.Controllers
     [ApiController]
     public class FossilController : ControllerBase
     {
-        [ApiController]
-        public class PaymentInformationController : ControllerBase
-        {
             readonly CreateFossilRequestValidator _validator;
             readonly FossilRepository _repository;
 
-            public PaymentInformationController(FossilRepository repository)
+            public FossilController(FossilRepository repository)
             {
                 _repository = repository;
                 _validator = new CreateFossilRequestValidator();
@@ -48,11 +45,11 @@ namespace FossilChaser.Controllers
             }
 
             //get single fossil 
-            [HttpGet("getSingleUser/{id}")]
+            [HttpGet("getFossil/{id}")]
             public ActionResult GetSingleFossil(int id)
             {
-                var singleUser = _repository.GetSingleFossil(id);
-                return Ok(singleUser);
+                var singleFossil = _repository.GetSingleFossil(id);
+                return Ok(singleFossil);
             }
 
             //update fossil
@@ -70,7 +67,6 @@ namespace FossilChaser.Controllers
                 var deletedFossil = _repository.DeleteFossil(id);
                 return Ok(deletedFossil);
             }
-        }
 
         public class CreateFossilRequestValidator
         {
