@@ -13,13 +13,10 @@ namespace FossilChaser.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        [ApiController]
-        public class PaymentInformationController : ControllerBase
-        {
             readonly CreateUserRequestValidator _validator;
             readonly UserRepository _repository;
 
-            public PaymentInformationController(UserRepository repository)
+            public UserController(UserRepository repository)
             {
                 _repository = repository;
                 _validator = new CreateUserRequestValidator();
@@ -70,7 +67,6 @@ namespace FossilChaser.Controllers
                 var deletedUser = _repository.DeleteUser(id);
                 return Ok(deletedUser);
             }
-        }
 
         public class CreateUserRequestValidator
         {
