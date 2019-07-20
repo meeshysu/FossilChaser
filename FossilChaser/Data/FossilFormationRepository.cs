@@ -10,8 +10,6 @@ namespace FossilChaser.Data
 {
     public class FossilFormationRepository
     {
-        public class UserRepository
-        {
             const string ConnectionString = "Server=localhost;Database=FossilChaser;Trusted_Connection=True;";
 
             public FossilFormation AddFossilFormation(int userId, int fossilId, int formationId)
@@ -88,7 +86,7 @@ namespace FossilChaser.Data
                     return deletedFossilFormation;
                 }
             }
-        }
+        
     }
 }
 

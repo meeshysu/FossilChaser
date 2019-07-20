@@ -7,6 +7,7 @@ namespace FossilChaser.Models
 {
     public class FossilFormation
     {
+        public int Id { get; set; }
         public int UserId { get; set; }
         public int FormationId { get; set; }
         public int FossilId { get; set; }

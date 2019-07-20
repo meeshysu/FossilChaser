@@ -44,7 +44,7 @@ namespace FossilChaser.Controllers
             return Ok(fossilFormations);
         }
 
-        //get single fossil 
+        //get single fossil formation
         [HttpGet("getFossilFormation/{id}")]
         public ActionResult GetFossilFormation(int id)
         {
@@ -52,15 +52,15 @@ namespace FossilChaser.Controllers
             return Ok(singleFossilFormation);
         }
 
-        //update fossil
+        //update fossil formation
         [HttpPut("{id}")]
-        public ActionResult UpdateFossilFormation(Fossil fossil)
+        public ActionResult UpdateFossilFormation(FossilFormation fossilFormation)
         {
-            var updateFossil = _repository.UpdateFossilFormation(fossil);
+            var updateFossil = _repository.UpdateFossilFormation(fossilFormation);
             return Ok(updateFossil);
         }
 
-        //delete fossil for admin purposes
+        //delete fossil formation for admin purposes
         [HttpDelete("{id}")]
         public ActionResult DeleteFossilFormation(int id)
         {
