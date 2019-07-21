@@ -11,7 +11,7 @@ namespace FossilChaser.Models
         public string Name { get; set; }
         public string ScientificName { get; set; }
         public string Era { get; set; }
-        public string ScientificFounder { get; set; }
+        public string Founder { get; set; }
         public string Formation { get; set; }
     }
 }

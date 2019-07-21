@@ -18,16 +18,16 @@ namespace FossilChaser.Data
             _connectionString = dbConfig.Value.ConnectionString;
         }
 
-        public FossilFormation AddFossilFormation(int userId, int fossilId, int formationId)
+        public FossilFormation AddFossilFormation(int userId, int fossilId, int formationId, int favoriteId)
             {
                 using (var db = new SqlConnection(_connectionString))
                 {
                     var newFossilFormation = db.QueryFirstOrDefault<FossilFormation>(
-                                                                                    @"insert into FossilFormation (userId, fossilId, formationId)
+                                                                                    @"insert into FossilFormation (userId, fossilId, formationId, favoriteId)
                                                                                     Output inserted.*
-                                                                                    values (@userId, @fossilId, @formationId)
-                                                                                    select * from User",
-                                                                                    new { userId, fossilId, formationId });
+                                                                                    values (@userId, @fossilId, @formationId, @favoriteId)
+                                                                                    select * from FossilFormation",
+                                                                                    new { userId, fossilId, formationId, favoriteId });
 
                     if (newFossilFormation != null)
                     {
@@ -72,9 +72,11 @@ namespace FossilChaser.Data
                                                                                            where id = @id",
                                                                                            new
                                                                                            {
-                                                                                               userName = fossilFormation.UserId,
-                                                                                               password = fossilFormation.FossilId,
-                                                                                               favorite = fossilFormation.FormationId,
+                                                                                               id = fossilFormation.Id,
+                                                                                               userId = fossilFormation.UserId,
+                                                                                               fossilId = fossilFormation.FossilId,
+                                                                                               formationId = fossilFormation.FormationId,
+                                                                                               favoriteId = fossilFormation.FavoriteId
                                                                                            });
                     return updateFossilFormation;
                 }
@@ -86,7 +88,7 @@ namespace FossilChaser.Data
                 using (var db = new SqlConnection(_connectionString))
                 {
                     var deletedFossilFormation = db.QueryFirstOrDefault<FossilFormation>(@"delete
-                                                                                           from User
+                                                                                           from FossilFormation
                                                                                            where id = @id",
                                                                                            new { id });
                     return deletedFossilFormation;

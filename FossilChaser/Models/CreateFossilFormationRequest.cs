@@ -11,5 +11,6 @@ namespace FossilChaser.Models
         public int UserId { get; set; }
         public int FormationId { get; set; }
         public int FossilId { get; set; }
+        public int FavoriteId { get; set; }
     }
 }
