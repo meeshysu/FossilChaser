@@ -5,23 +5,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using FossilChaser.Models;
+using Microsoft.Extensions.Options;
 
 namespace FossilChaser.Data
 {
     public class FormationRepository
     {
-        const string ConnectionString = "Server=localhost;Database=FossilChaser;Trusted_Connection=True;";
+        readonly string _connectionString;
 
-        public Formation AddFormation(string formationName, string founder, string state, string country, int longitude, int latitude)
+        public FormationRepository(IOptions<DbConfiguration> dbConfig)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            _connectionString = dbConfig.Value.ConnectionString;
+        }
+
+        public Formation AddFormation(string formationName, string founder, string region, string state, string country)
+        {
+            using (var db = new SqlConnection(_connectionString))
             {
                 var newFormation = db.QueryFirstOrDefault<Formation>(
-                                                                @"insert into Formation (formationName, founder, state, country, longitude, latitude)
+                                                                @"insert into Formation (formationName, founder, region, state, country)
                                                                 Output inserted.*
                                                                 values (@formationName, @founder, @state, @country, @longitude, @latitude)
-                                                                select * from User",
-                                                                new { formationName, founder, state, country, longitude, latitude });
+                                                                select * from Formation",
+                                                                new { formationName, founder, region, state, country });
 
                 if (newFormation != null)
                 {
@@ -33,7 +39,7 @@ namespace FossilChaser.Data
 
         public IEnumerable<Formation> GetAll()
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var formations = db.Query<Formation>("select * from Formation").ToList();
 
@@ -43,7 +49,7 @@ namespace FossilChaser.Data
 
         public Formation GetFormation(int id)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var singleFormation = db.QueryFirstOrDefault<Formation>(@"select *
                                                                     from Formation
@@ -56,25 +62,24 @@ namespace FossilChaser.Data
 
         public Formation UpdateFormation(Formation updateFormation)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var updatedFormation = db.QueryFirstOrDefault<Formation>(@"update Formation
                                         set formationName = @formationName,
                                             founder = @founder,
+                                            region = @region,
                                             state = @state,
-                                            country = @country,
-                                            longitude = @longitude,
-                                            latitude = @latitude,
+                                            country = @country
                                             output inserted.*
                                             where id = @id",
                                                             new
                                                             {
+                                                                id = updateFormation.Id,
                                                                 formationName = updateFormation.FormationName,
                                                                 founder = updateFormation.Founder,
+                                                                region = updateFormation.Region,
                                                                 state = updateFormation.State,
                                                                 country = updateFormation.Country,
-                                                                longitude = updateFormation.Longitude,
-                                                                latitude = updateFormation.Latitude,
                                                             });
                 return updatedFormation;
             }
@@ -83,7 +88,7 @@ namespace FossilChaser.Data
 
         public Formation DeleteFormation(int id)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var deletedFormation = db.QueryFirstOrDefault<Formation>(@"delete
                                                                  from Formation

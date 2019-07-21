@@ -5,16 +5,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using FossilChaser.Models;
+using Microsoft.Extensions.Options;
 
 namespace FossilChaser.Data
 {
     public class UserRepository
     {
-        const string ConnectionString = "Server=localhost;Database=FossilChaser;Trusted_Connection=True;";
+        readonly string _connectionString;
+
+        public UserRepository(IOptions<DbConfiguration> dbConfig)
+        {
+            _connectionString = dbConfig.Value.ConnectionString;
+        }
 
         public User AddUser(string userName, string password, string favorite)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var newUser = db.QueryFirstOrDefault<User>(
                                                                 @"insert into User (userName, password, favorite)
@@ -33,7 +39,7 @@ namespace FossilChaser.Data
 
         public IEnumerable<User> GetAll()
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var users = db.Query<User>("select * from User").ToList();
 
@@ -43,7 +49,7 @@ namespace FossilChaser.Data
 
         public User GetSingleUser(int id)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var singleUser = db.QueryFirstOrDefault<User>(@"select *
                                                                     from User
@@ -56,7 +62,7 @@ namespace FossilChaser.Data
 
         public User UpdateSingleUser(User singleUser)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var updatedUser = db.QueryFirstOrDefault<User>(@"update User
                                         set userName = @userName,
@@ -78,7 +84,7 @@ namespace FossilChaser.Data
 
         public User DeleteUser(int id)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var deletedUser = db.QueryFirstOrDefault<User>(@"delete
                                                                        from User
