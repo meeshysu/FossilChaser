@@ -18,16 +18,16 @@ namespace FossilChaser.Data
             _connectionString = dbConfig.Value.ConnectionString;
         }
 
-        public Fossil AddFossil(string name, string scientificName, string era, string scientificFounder, string formation)
+        public Fossil AddFossil(string name, string scientificName, string era, string founder, string formation)
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var newFossil = db.QueryFirstOrDefault<Fossil>(
-                                                                @"insert into Fossil (name, scientificName, era, scientificFounder, formation)
+                                                                @"insert into Fossil (name, scientificName, era, founder, formation)
                                                                 Output inserted.*
-                                                                values (@name, @scientificName, @era, @scientificFounder, @formation)
-                                                                select * from User",
-                                                                new { name, scientificName, era, scientificFounder, formation });
+                                                                values (@name, @scientificName, @era, @founder, @formation)
+                                                                select * from Fossil",
+                                                                new { name, scientificName, era, founder, formation });
 
                 if (newFossil != null)
                 {
@@ -68,16 +68,17 @@ namespace FossilChaser.Data
                                         set name = @name,
                                             scientificName = @scientificName,
                                             era = @era,
-                                            scientificFounder = @scientificFounder,
+                                            founder = @founder,
                                             formation = @formation,
                                             output inserted.*
                                             where id = @id",
                                                             new
                                                             {
+                                                                id = updateFossil.Id,
                                                                 name = updateFossil.Name,
                                                                 scientificName = updateFossil.ScientificName,
                                                                 era = updateFossil.Era,
-                                                                scientificFounder = updateFossil.ScientificFounder,
+                                                                founder = updateFossil.Founder,
                                                                 formation = updateFossil.Formation,
                                                             });
                 return updatedFossil;

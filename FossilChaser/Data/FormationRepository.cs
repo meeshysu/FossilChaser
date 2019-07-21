@@ -25,7 +25,7 @@ namespace FossilChaser.Data
                 var newFormation = db.QueryFirstOrDefault<Formation>(
                                                                 @"insert into Formation (formationName, founder, region, state, country)
                                                                 Output inserted.*
-                                                                values (@formationName, @founder, @state, @country, @longitude, @latitude)
+                                                                values (@formationName, @founder, @region, @state, @country)
                                                                 select * from Formation",
                                                                 new { formationName, founder, region, state, country });
 

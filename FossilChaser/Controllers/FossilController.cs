@@ -31,9 +31,9 @@ namespace FossilChaser.Controllers
                     return BadRequest("All product information must be filled out.");
                 }
 
-                var newUser = _repository.AddFossil(createRequest.Name, createRequest.ScientificName, createRequest.Era, createRequest.ScientificFounder, createRequest.Formation);
+                var newFossil = _repository.AddFossil(createRequest.Name, createRequest.ScientificName, createRequest.Era, createRequest.Founder, createRequest.Formation);
 
-                return Created($"api/user/{newUser.Id}", newUser);
+                return Created($"api/fossil/{newFossil.Id}", newFossil);
             }
 
             //get all fossil
