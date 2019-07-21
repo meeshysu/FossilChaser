@@ -5,16 +5,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using FossilChaser.Models;
+using Microsoft.Extensions.Options;
 
 namespace FossilChaser.Data
 {
     public class FavoriteRepository
     {
-        const string ConnectionString = "Server=localhost;Database=FossilChaser;Trusted_Connection=True;";
+        readonly string _connectionString;
 
+        public FavoriteRepository(IOptions<DbConfiguration> dbConfig)
+        {
+            _connectionString = dbConfig.Value.ConnectionString;
+        }
         public Favorite AddFavorite(int userId, int fossilId, int formationId)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var newFavorite = db.QueryFirstOrDefault<Favorite>(
                                                                 @"insert into Favorite (userId, fossilId, formationId)
@@ -33,7 +38,7 @@ namespace FossilChaser.Data
 
         public IEnumerable<Favorite> GetAll()
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var favorites = db.Query<Favorite>("select * from Favorite").ToList();
 
@@ -43,7 +48,7 @@ namespace FossilChaser.Data
 
         public Favorite GetFavorite(int id)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var singleFavorite = db.QueryFirstOrDefault<Favorite>(@"select *
                                                                     from Favorite
@@ -56,7 +61,7 @@ namespace FossilChaser.Data
 
         public Favorite UpdateFavorite(Favorite singleFavorite)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var updateFavorite = db.QueryFirstOrDefault<Favorite>(@"update Favorite
                                         set userId = @userId,
@@ -77,7 +82,7 @@ namespace FossilChaser.Data
 
         public Favorite DeleteFavorite(int id)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var deletedFavorite = db.QueryFirstOrDefault<Favorite>(@"delete
                                                                        from Favorite

@@ -5,16 +5,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using FossilChaser.Models;
+using Microsoft.Extensions.Options;
 
 namespace FossilChaser.Data
 {
     public class FossilRepository
     {
-        const string ConnectionString = "Server=localhost;Database=FossilChaser;Trusted_Connection=True;";
+        readonly string _connectionString;
+
+        public FossilRepository(IOptions<DbConfiguration> dbConfig)
+        {
+            _connectionString = dbConfig.Value.ConnectionString;
+        }
 
         public Fossil AddFossil(string name, string scientificName, string era, string scientificFounder, string formation)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var newFossil = db.QueryFirstOrDefault<Fossil>(
                                                                 @"insert into Fossil (name, scientificName, era, scientificFounder, formation)
@@ -33,7 +39,7 @@ namespace FossilChaser.Data
 
         public IEnumerable<Fossil> GetAll()
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var fossils = db.Query<Fossil>("select * from Fossil").ToList();
 
@@ -43,7 +49,7 @@ namespace FossilChaser.Data
 
         public Fossil GetSingleFossil(int id)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var singleFossil = db.QueryFirstOrDefault<Fossil>(@"select *
                                                                     from Fossil
@@ -56,7 +62,7 @@ namespace FossilChaser.Data
 
         public Fossil UpdateFossil(Fossil updateFossil)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var updatedFossil = db.QueryFirstOrDefault<Fossil>(@"update Fossil
                                         set name = @name,
@@ -81,7 +87,7 @@ namespace FossilChaser.Data
 
         public Fossil DeleteFossil(int id)
         {
-            using (var db = new SqlConnection(ConnectionString))
+            using (var db = new SqlConnection(_connectionString))
             {
                 var deletedFossil = db.QueryFirstOrDefault<Fossil>(@"delete
                                                                        from Fossil

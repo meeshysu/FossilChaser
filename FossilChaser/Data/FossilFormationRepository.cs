@@ -5,16 +5,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using FossilChaser.Models;
+using Microsoft.Extensions.Options;
 
 namespace FossilChaser.Data
 {
     public class FossilFormationRepository
     {
-            const string ConnectionString = "Server=localhost;Database=FossilChaser;Trusted_Connection=True;";
+        readonly string _connectionString;
 
-            public FossilFormation AddFossilFormation(int userId, int fossilId, int formationId)
+        public FossilFormationRepository(IOptions<DbConfiguration> dbConfig)
+        {
+            _connectionString = dbConfig.Value.ConnectionString;
+        }
+
+        public FossilFormation AddFossilFormation(int userId, int fossilId, int formationId)
             {
-                using (var db = new SqlConnection(ConnectionString))
+                using (var db = new SqlConnection(_connectionString))
                 {
                     var newFossilFormation = db.QueryFirstOrDefault<FossilFormation>(
                                                                                     @"insert into FossilFormation (userId, fossilId, formationId)
@@ -33,7 +39,7 @@ namespace FossilChaser.Data
 
             public IEnumerable<FossilFormation> GetAll()
             {
-                using (var db = new SqlConnection(ConnectionString))
+                using (var db = new SqlConnection(_connectionString))
                 {
                     var fossilFormation = db.Query<FossilFormation>("select * from Fossil Formation").ToList();
 
@@ -43,7 +49,7 @@ namespace FossilChaser.Data
 
             public FossilFormation GetFossilFormation(int id)
             {
-                using (var db = new SqlConnection(ConnectionString))
+                using (var db = new SqlConnection(_connectionString))
                 {
                     var fossilFormation = db.QueryFirstOrDefault<FossilFormation>(@"select *
                                                                                     from FossilFormation
@@ -56,7 +62,7 @@ namespace FossilChaser.Data
 
             public FossilFormation UpdateFossilFormation(FossilFormation fossilFormation)
             {
-                using (var db = new SqlConnection(ConnectionString))
+                using (var db = new SqlConnection(_connectionString))
                 {
                     var updateFossilFormation = db.QueryFirstOrDefault<FossilFormation>(@"update FossilFormation
                                                                                            set userId = @userId,
@@ -77,7 +83,7 @@ namespace FossilChaser.Data
 
             public FossilFormation DeleteFossilFormation(int id)
             {
-                using (var db = new SqlConnection(ConnectionString))
+                using (var db = new SqlConnection(_connectionString))
                 {
                     var deletedFossilFormation = db.QueryFirstOrDefault<FossilFormation>(@"delete
                                                                                            from User
