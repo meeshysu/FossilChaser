@@ -4,7 +4,6 @@ import {
   Navbar,
   Nav,
   NavbarToggler,
-  NavbarBrand,
   NavLink,
   NavItem
 } from 'reactstrap';
@@ -23,8 +22,6 @@ class MyNavbar extends React.Component {
       <div className="Navbar">
         <div className="container">
           <Navbar expand="md">
-            <NavbarBrand to="/" className="navbar-brand">
-            <img className='littlefoot-image'alt='product' /></NavbarBrand>
             <NavbarToggler />
             <div className="yes">
               {authed ? (
@@ -38,18 +35,13 @@ class MyNavbar extends React.Component {
                     <NavLink tag={RRNavLink} to='/ShoppingCart'>
                       SHOPPING CART
                       </NavLink>
-                  </NavItem>
-                  <NavItem className="container3">
-                    <NavLink tag={RRNavLink} to='/accounthome'>
-                      USER ACCOUNT
-                      </NavLink>
-                  </NavItem>
 
                   <NavLink className="btn btn container4"
                     onClick={logoutClickEvent}
                     tag={RRNavLink} to='/login'>
                     LOGOUT
                   </NavLink>
+                  </NavItem>
                 </Nav>
 
               )
