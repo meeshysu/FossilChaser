@@ -48,9 +48,8 @@ class Map extends React.Component {
       <div className = "map-container">
       <LeafletMap
         center={[50.761667, -111.485]}
-        zoom={6}
-        maxZoom={10}
-        attributionControl={true}
+        zoom={2}
+        maxZoom={17}        attributionControl={true}
         zoomControl={true}
         doubleClickZoom={true}
         scrollWheelZoom={true}
@@ -59,7 +58,7 @@ class Map extends React.Component {
         easeLinearity={0.35}
       >
         <TileLayer
-          url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}'
+          url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
         />
 
             {this.formationItemComponent()}
