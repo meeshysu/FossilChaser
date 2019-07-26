@@ -31,7 +31,7 @@ namespace FossilChaser.Controllers
                 return BadRequest("All formation information must be filled out.");
             }
 
-            var newFormation = _repository.AddFormation(createRequest.FormationName, createRequest.Founder, createRequest.Region, createRequest.State, createRequest.Country);
+            var newFormation = _repository.AddFormation(createRequest.FormationName, createRequest.Founder, createRequest.Region, createRequest.State, createRequest.Country, createRequest.Latitude, createRequest.Longitude);
 
             return Created($"api/formation/{newFormation.Id}", newFormation);
         }
