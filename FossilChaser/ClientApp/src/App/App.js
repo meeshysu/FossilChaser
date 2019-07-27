@@ -5,14 +5,13 @@ import Navbar from '../components/MyNavbar/Navbar';
 import Map from '../components/Map/Map';
 import Profile from '../components/Profile/Profile';
 import Connection from '../Data/Connection';
-import Home from '../components/Home/Home';
-import Auth from '../Data/Auth';
+import Auth from '../components/Auth/Auth';
 import authRequests from '../Data/authRequest';
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   let routeChecker = props => (authed === false
     ? (<Component {...props} {...rest} />)
-    : (<Redirect to={{ pathname: '/home', state: { from: props.location } }} />));
+    : (<Redirect to={{ pathname: '/map', state: { from: props.location } }} />));
   return <Route {...rest} render={props => routeChecker(props)} />;
 };
 
@@ -69,7 +68,7 @@ class App extends React.Component {
           <React.Fragment>
             <Navbar isAuthed={authed} logoutClick={logoutClick}/>
               <Switch>
-                <PrivateRoute path='/' exact component={Home} authed={this.state.authed} />
+                <PrivateRoute path='/' exact component={Map} authed={this.state.authed} />
                 <PrivateRoute path='/map' component={Map} authed={this.state.authed} />
                 <PrivateRoute path='/profile' component={Profile} authed={this.state.authed} />
                 <PublicRoute path='/auth' component={Auth} authed={this.state.authed} />
