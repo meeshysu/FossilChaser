@@ -1,62 +1,44 @@
 import React from 'react';
-import { NavLink as RRNavLink, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { NavLink as RRNavLink } from 'react-router-dom';
 import {
   Navbar,
+  NavbarBrand,
   Nav,
-  NavbarToggler,
+  NavItem,
   NavLink,
-  NavItem
 } from 'reactstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 import './Navbar.scss';
 
 class MyNavbar extends React.Component {
+  static propTypes = {
+    isAuthed: PropTypes.bool,
+    logoutClick: PropTypes.func,
+  }
+
   render() {
-    const { authed, runAway } = this.props;
-    const logoutClickEvent = () => {
-      runAway();
-      return <Redirect to='/login' />
+    const { isAuthed, logoutClick } = this.props;
+
+    const buildLinks = () => {
+      if (isAuthed) {
+        return (
+          <Nav className="ml-auto" navbar>
+            <NavItem>
+              <NavLink tag={RRNavLink} to='/profile'>Profile</NavLink>
+            </NavItem>
+            <NavLink className='logout-link' onClick={logoutClick}>Logout</NavLink>
+          </Nav>
+        );
+      }
+      return <div></div>;
     };
 
     return (
-      <div className="Navbar">
-        <div className="container">
-          <Navbar expand="md">
-            <NavbarToggler />
-            <div className="yes">
-              {authed ? (
-                <Nav className="secondary-navbar-links">
-                  <NavItem className="container1">
-                    <NavLink tag={RRNavLink} to='/home'>
-                      HOME
-                      </NavLink>
-                  </NavItem>
-                  <NavItem className="container2">
-                    <NavLink tag={RRNavLink} to='/ShoppingCart'>
-                      SHOPPING CART
-                      </NavLink>
-
-                  <NavLink className="btn btn container4"
-                    onClick={logoutClickEvent}
-                    tag={RRNavLink} to='/login'>
-                    LOGOUT
-                  </NavLink>
-                  </NavItem>
-                </Nav>
-
-              )
-                :
-                (
-                  <ul className="nav navbar-nav navbar-right">
-                    <li>
-                    </li>
-                  </ul>
-                )
-              }
-            </div>
-          </Navbar>
-        </div>
+      <div className="my-navbar">
+        <Navbar color="dark" dark expand="md">
+          <NavbarBrand href="/">Fossil Chaser</NavbarBrand>
+            {buildLinks()}
+        </Navbar>
       </div>
     );
   }

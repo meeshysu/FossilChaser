@@ -1,17 +1,18 @@
+import firebase from 'firebase';
 import React, { Component } from 'react';
 import { Route, BrowserRouter, Switch, Redirect } from 'react-router-dom';
 import Navbar from '../components/MyNavbar/Navbar';
 import Map from '../components/Map/Map';
-import Login from '../components/Login/Login';
-import Register from '../components/Register/Register';
 import Profile from '../components/Profile/Profile';
 import Connection from '../Data/Connection';
-import firebase from 'firebase';
+import Home from '../components/Home/Home';
+import Auth from '../Data/Auth';
+import authRequests from '../Data/authRequest';
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   let routeChecker = props => (authed === false
     ? (<Component {...props} {...rest} />)
-    : (<Redirect to={{ pathname: '/login', state: { from: props.location } }} />));
+    : (<Redirect to={{ pathname: '/home', state: { from: props.location } }} />));
   return <Route {...rest} render={props => routeChecker(props)} />;
 };
 
@@ -19,84 +20,64 @@ const PublicRoute = ({ component: Component, authed, ...rest }) => {
 const PrivateRoute = ({ component: Component, authed, ...rest }) => {
   let routeChecker = props => (authed === true
     ? (<Component {...props} {...rest} />)
-    : (<Redirect to={{ pathname: '/orders', state: { from: props.location } }} />));
+    : (<Redirect to={{ pathname: '/auth', state: { from: props.location } }} />));
   return <Route {...rest} render={props => routeChecker(props)} />;
 };
 
 class App extends React.Component {
-  state={
-    authed: false
+  state = {
+    authed: false,
+    pendingUser: true,
   }
 
   componentDidMount() {
     Connection();
+
     this.removeListener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({
           authed: true,
+          pendingUser: false,
         });
+        authRequests.getCurrentUserJwt();
       } else {
         this.setState({
           authed: false,
+          pendingUser: false,
         });
       }
     });
-}
+  }
 
-  componentWillUnmount () {
+  componentWillUnmount = () => {
     this.removeListener();
   }
 
-  runAway = () => {
-    this.setState({authed: false});
-  }
+  render() {
+    const { authed } = this.state;
+    const logoutClick = () => {
+      authRequests.logoutUser();
+      this.setState({ authed: false });
+    };
 
-  render () {
-    const {
-      authed
-    } = this.state 
-
-    if (!authed) {
-      return (
-        <div className="App">
-          <Navbar
-              authed={this.state.authed}
-              runAway={this.runAway}
-              component={Login}
-            />
-          <Route path="/" exact component={Login}/>  
-          <PublicRoute
-              path="/login"
-              authed={this.state.authed}
-              component={Login}
-              />
-          <PublicRoute
-              path="/register"
-              authed={this.state.authed}
-              component={Register}
-                  />
-        </div>
-      )
+    if (this.state.pendingUser) {
+      return null;
     }
-
     return (
       <div className="App">
         <BrowserRouter>
-          <div>
-            <Navbar
-              authed={this.state.authed}
-              runAway={this.runAway}
-            />
-                <Switch>
-                  <Route path="/" exact component={Map}/>
-                  <PrivateRoute path='/customerprofile' exact component={Map} authed={this.state.authed} />
-                  <PrivateRoute path='/home' exact component={Profile} authed={this.state.authed} />
-                </Switch>
-          </div>
+          <React.Fragment>
+            <Navbar isAuthed={authed} logoutClick={logoutClick}/>
+              <Switch>
+                <PrivateRoute path='/' exact component={Home} authed={this.state.authed} />
+                <PrivateRoute path='/map' component={Map} authed={this.state.authed} />
+                <PrivateRoute path='/profile' component={Profile} authed={this.state.authed} />
+                <PublicRoute path='/auth' component={Auth} authed={this.state.authed} />
+              </Switch>
+          </React.Fragment>
         </BrowserRouter>
       </div>
     );
   }
 }
-
 export default App;

@@ -1,60 +1,52 @@
 import React from 'react';
-import { Button } from 'reactstrap';
-import PropTypes from 'prop-types';
-import authRequests from '../../Data/Auth';
-
+import { Label } from 'reactstrap';
 import './Profile.scss';
+import userRequests from '../../Data/userRequest';
 
- 
+const defaultUser = {
+  id: 0,
+  username: '',
+  email: '',
+};
 
-export class CustomerProfile extends React.Component {
-
+class Profile extends React.Component {
   state = {
-    customer: {},
-    isEditing: false,
-    editId: '-1',
-    open: false,
+    user: defaultUser,
   }
-
-  static propTypes = {
-    onSubmit: PropTypes.func,
-  }
-
-  onOpenModal = () => {
-    this.setState({ open: true });
-  };
- 
-  onCloseModal = () => {
-    this.setState({ open: false });
-  };
 
   componentDidMount() {
-    let uid = authRequests.getUid();
-    this.getCustomer(uid);
-    this.setState({ isEditing: true, editId: uid })
-  }
-  
-  componentWillUnmount() {
-    let uid = authRequests.getUid();
-    this.getCustomer(uid);
-    this.setState({ isEditing: false, editId: uid })
+    this.setUserState();
   }
 
-  editCustomer = (e) => {
-    e.preventDefault();
-    let uid = authRequests.getUid();
-    this.setState({ isEditing: true, editId: uid })
-    this.onOpenModal();
+  setUserState = () => {
+    userRequests.getUserByEmail()
+      .then((user) => {
+        this.setState({ user });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  onSubmit = (userObject) => {
+    userRequests.updateUser(userObject)
+      .then(() => {
+        this.setUserState();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   render() {
-    //const { customer, isEditing, editId } = this.state;
+    //const { user } = this.state;
 
     return (
-      <div className="container customerProfile">
+      <div>
+        <h1>Profile Page</h1>
       </div>
-    )
+    );
   }
 }
 
-export default CustomerProfile;
+export default Profile;

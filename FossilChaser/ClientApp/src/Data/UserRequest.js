@@ -1,22 +1,41 @@
 import axios from 'axios';
+//import apiKeys from '../apikeys';
+import authRequests from '../Data/authRequest';
 
 
-const getUserProfile = uid => new Promise((resolve, reject) => {
-  axios
-    .get(`api/user/${uid}`)
-    .then((res) => {
-      let user = res.data;
-      resolve(user);
+
+const getAllUsers = () => new Promise((resolve, reject) => {
+  axios.get(`api/users/getAllUsers`)
+    .then((result) => {
+      if (result != null) {
+        const allUsers = result.data;
+        resolve(allUsers);
+      }
     })
-    .catch(err => reject(err));
+    .catch((err) => {
+      reject(err);
+    });
 });
 
-const postUser = (user) => axios.post(`/api/formation/getAllUsers`, user);
+const getUserByEmail = () => new Promise((resolve, reject) => {
+  const userEmail = authRequests.getUserEmail();
+  getAllUsers()
+    .then((users) => {
+      const currentUser = users.find(user => user.email === userEmail);
+      resolve(currentUser);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
 
-const updateUser = (customer) => axios.put(`/api/customer/${customer}`, customer);
+const addUser = userObject => axios.post(`api/users/id`, userObject);
+
+const updateUser = userObject => axios.put(`api/users/id`, userObject);
 
 export default {
-  postUser,
-  getUserProfile,
-  updateUser
-}
+  addUser,
+  getUserByEmail,
+  getAllUsers,
+  updateUser,
+};

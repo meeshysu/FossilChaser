@@ -17,7 +17,7 @@ axios.interceptors.request.use(function (request) {
 axios.interceptors.response.use(response => {
     return response;
 }, errorResponse => {
-   console.error("Authentication has an error!")
+   console.error(errorResponse, "Authentication has an error!")
 });
 
 const registerUser = (user) => {
@@ -41,4 +41,4 @@ const getUid = () => {
   return firebase.auth().currentUser.uid;
 };
 
-export default {getUid, loginUser, logoutUser, registerUser};
+export default { getUid, loginUser, logoutUser, registerUser };
