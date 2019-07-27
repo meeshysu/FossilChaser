@@ -18,6 +18,7 @@ class Map extends React.Component {
 
   componentDidMount() {
     this.newUserSetup();
+    this.showFormations();
   }
 
   newUserSetup = () => {
@@ -44,10 +45,6 @@ class Map extends React.Component {
     .catch(err => console.error('error with getting formations', err));
   }
 
-  componentDidMount(){
-    this.showFormations();
-  }
-
   formationItemComponent = () => {
     const { formations } = this.state;  
     const formationCreation = formations.map(formation => (
@@ -56,13 +53,10 @@ class Map extends React.Component {
       position={[formation.latitude, formation.longitude]}
       >
       <Popup className='pop-up'>
-      id={formation.id}
-      formation={formation.formationName}
-      founder={formation.founder}
-      region={formation.region}
-      state={formation.state}
-      country={formation.country}
-      >
+      Founder: {formation.founder}
+      Region: {formation.region}
+      State: {formation.state}
+      Country: {formation.country}
       </Popup>
       </Marker>
   
@@ -76,7 +70,8 @@ class Map extends React.Component {
       <LeafletMap
         center={[50.761667, -111.485]}
         zoom={2}
-        maxZoom={17}        attributionControl={true}
+        maxZoom={17}        
+        attributionControl={true}
         zoomControl={true}
         doubleClickZoom={true}
         scrollWheelZoom={true}

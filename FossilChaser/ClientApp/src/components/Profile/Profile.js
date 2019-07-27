@@ -1,7 +1,7 @@
 import React from 'react';
 import { Label } from 'reactstrap';
 import './Profile.scss';
-import userRequests from '../../Data/userRequest';
+import userRequests from '../../Data/UserRequest';
 
 const defaultUser = {
   id: 0,

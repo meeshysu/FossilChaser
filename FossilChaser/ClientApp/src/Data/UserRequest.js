@@ -5,7 +5,7 @@ import authRequests from '../Data/authRequest';
 
 
 const getAllUsers = () => new Promise((resolve, reject) => {
-  axios.get(`api/users/getAllUsers`)
+  axios.get(`api/user/getAllUsers`)
     .then((result) => {
       if (result != null) {
         const allUsers = result.data;
@@ -29,9 +29,9 @@ const getUserByEmail = () => new Promise((resolve, reject) => {
     });
 });
 
-const addUser = userObject => axios.post(`api/users/id`, userObject);
+const addUser = userObject => axios.post(`api/user/id`, userObject);
 
-const updateUser = userObject => axios.put(`api/users/id`, userObject);
+const updateUser = userObject => axios.put(`api/user/id`, userObject);
 
 export default {
   addUser,

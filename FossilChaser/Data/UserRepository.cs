@@ -18,16 +18,16 @@ namespace FossilChaser.Data
             _connectionString = dbConfig.Value.ConnectionString;
         }
 
-        public User AddUser(string userName, string password, string favorite)
+        public User AddUser(string email)
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var newUser = db.QueryFirstOrDefault<User>(
-                                                                @"insert into User (userName, password, favorite)
+                                                                @"insert into User (email)
                                                                 Output inserted.*
-                                                                values (@userName, @password, @favorite)
+                                                                values (@email)
                                                                 select * from User",
-                                                                new { userName, password, favorite });
+                                                                new { email });
 
                 if (newUser != null)
                 {
@@ -41,7 +41,7 @@ namespace FossilChaser.Data
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var users = db.Query<User>("select * from User").ToList();
+                var users = db.Query<User>("select * from [User]").ToList();
 
                 return users;
             }
@@ -65,17 +65,13 @@ namespace FossilChaser.Data
             using (var db = new SqlConnection(_connectionString))
             {
                 var updatedUser = db.QueryFirstOrDefault<User>(@"update User
-                                        set userName = @userName,
-                                            password = @password,
-                                            favorite = @favorite,
+                                        set email = @email,
                                             output inserted.*
                                             where id = @id",
                                                             new
                                                             {
                                                                 id = singleUser.Id,
-                                                                userName = singleUser.Username,
-                                                                password = singleUser.Password,
-                                                                favorite = singleUser.Favorite,
+                                                                userName = singleUser.Email
                                                             });
                 return updatedUser;
             }
