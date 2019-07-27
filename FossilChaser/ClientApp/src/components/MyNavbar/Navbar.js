@@ -8,6 +8,7 @@ import {
   NavItem
 } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import './Navbar.scss';
 
 class MyNavbar extends React.Component {

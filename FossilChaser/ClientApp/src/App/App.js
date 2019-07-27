@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { Route, BrowserRouter, Switch, Redirect } from 'react-router-dom';
 import Navbar from '../components/MyNavbar/Navbar';
 import Map from '../components/Map/Map';
+import Login from '../components/Login/Login';
+import Register from '../components/Register/Register';
+import Profile from '../components/Profile/Profile';
+import Connection from '../Data/Connection';
+import firebase from 'firebase';
 
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   let routeChecker = props => (authed === false
@@ -24,6 +29,18 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    Connection();
+    this.removeListener = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({
+          authed: true,
+        });
+      } else {
+        this.setState({
+          authed: false,
+        });
+      }
+    });
 }
 
   componentWillUnmount () {

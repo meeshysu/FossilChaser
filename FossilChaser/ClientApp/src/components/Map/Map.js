@@ -1,6 +1,6 @@
 import React from 'react';
 import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet';
-import formationRequest from '../../Data/formationRequest';
+import FormationRequest from '../../Data/FormationRequest';
 import './Map.scss';
 
 
@@ -10,7 +10,7 @@ class Map extends React.Component {
   }
   
   showFormations = () => {
-    formationRequest.getRequest()
+    FormationRequest.getRequest()
     .then((data) => {
       this.setState({ formations: data });
     })
