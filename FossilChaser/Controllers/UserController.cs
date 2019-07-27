@@ -31,7 +31,7 @@ namespace FossilChaser.Controllers
                     return BadRequest("All product information must be filled out.");
                 }
 
-                var newUser = _repository.AddUser(createRequest.Username, createRequest.Password, createRequest.Favorite);
+                var newUser = _repository.AddUser(createRequest.Email);
 
                 return Created($"api/user/{newUser.Id}", newUser);
             }
@@ -72,8 +72,7 @@ namespace FossilChaser.Controllers
         {
             public bool Validate(CreateUserRequest requestToValidate)
             {
-                return string.IsNullOrEmpty(requestToValidate.Username)
-                    || string.IsNullOrEmpty(requestToValidate.Password);
+                return string.IsNullOrEmpty(requestToValidate.Email);
             }
         }
     }
