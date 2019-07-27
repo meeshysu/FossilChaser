@@ -24,6 +24,9 @@ class MyNavbar extends React.Component {
         return (
           <Nav className="ml-auto" navbar>
             <NavItem>
+              <NavLink tag={RRNavLink} to='/map'>Map</NavLink>
+            </NavItem>
+            <NavItem>
               <NavLink tag={RRNavLink} to='/profile'>Profile</NavLink>
             </NavItem>
             <NavLink className='logout-link' onClick={logoutClick}>Logout</NavLink>
@@ -37,7 +40,7 @@ class MyNavbar extends React.Component {
       <div className="my-navbar">
         <Navbar color="dark" dark expand="md">
           <NavbarBrand href="/">Fossil Chaser</NavbarBrand>
-            {buildLinks()}
+          {buildLinks()}
         </Navbar>
       </div>
     );
