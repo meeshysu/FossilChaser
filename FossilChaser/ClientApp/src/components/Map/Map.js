@@ -18,7 +18,6 @@ class Map extends React.Component {
   state = {
     formations: [],
     user: defaultUser,
-    isFavorite: true
   }
 
   static propTypes = {
@@ -27,18 +26,9 @@ class Map extends React.Component {
     popupItemComponent: PropTypes.func,
   }
 
-  changeIsFavState = () => {
-    const { isFavorite } = this.state;
-    this.setState({ isFavorite: !isFavorite });
-  }
-
   componentDidMount() {
     this.newUserSetup();
     this.showFormations();
-    const { isFavorite } = this.state;
-    if (isFavorite === false) {
-      this.props.getAllFavoriteFormations();
-    }
   }
 
 

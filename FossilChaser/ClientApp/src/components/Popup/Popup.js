@@ -1,5 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Popup } from 'react-leaflet';
+import StarButton from '../StarButton/StarButton';
 import './Popup.scss';
 
 class MyPopup extends React.Component {
@@ -8,12 +10,25 @@ state = {
   isFavorite: true,
 }
 
+static propTypes = {
+  clickToFavoriteButton: PropTypes.func,
+}
 
+componentDidMount() {
+  const { isFavorite } = this.state;
+  if (isFavorite === false) {
+    this.props.getAllFavoriteFormations();
+  }
+}
 
-// popupItemComponent = () => {
+changeIsFavState = () => {
+  const { isFavorite } = this.state;
+  this.setState({ isFavorite: !isFavorite });
+}
 
-
-// }
+ starButtonEvent = () => {
+  StarButton.clickToFavoriteButton();
+ }
 
 render() {
   const { formation } = this.props;
@@ -23,7 +38,9 @@ render() {
       <div className='popupDiv'>
         FormationName={formation.formationName}
         Location={formation.location}
+        
       </div>
+      <StarButton clickToFavoriteButton={this.props.clickToFavoriteButton}></StarButton>
     </Popup>
   )
 }
