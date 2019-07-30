@@ -53,7 +53,7 @@ namespace FossilChaser.Controllers
             }
 
             //update user
-            [HttpPut("{id}")]
+            [HttpPut("updateUser/{id}")]
             public ActionResult UpdateSingleUser(User user)
             {
                 var updateUser = _repository.UpdateSingleUser(user);
@@ -61,7 +61,7 @@ namespace FossilChaser.Controllers
             }
 
             //delete user for admin purposes mostly
-            [HttpDelete("{id}")]
+            [HttpDelete("deleteUser/{id}")]
             public ActionResult DeleteSingleUser(int id)
             {
                 var deletedUser = _repository.DeleteUser(id);

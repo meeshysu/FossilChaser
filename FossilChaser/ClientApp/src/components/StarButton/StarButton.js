@@ -16,6 +16,7 @@ class StarButton extends React.Component {
     userId: PropTypes.number,
   }
 
+
   getAllFavoriteFormations = () => {
     favFormationRequest.getAllFavFormations()
       .then((favoriteFormations) => {

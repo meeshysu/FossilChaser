@@ -7,8 +7,8 @@ import authRequests from '../../Data/authRequest';
 import './Auth.scss';
 
 class Auth extends React.Component {
-    loginClickEvent = (e) => {
-      e.preventDefault();
+    loginClickEvent = () => {
+      //e.preventDefault();
       authRequests
         .loginUser()
         .then(() => {

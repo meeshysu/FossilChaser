@@ -29,12 +29,12 @@ const getUserByEmail = () => new Promise((resolve, reject) => {
     });
 });
 
-const addUser = userObject => axios.post(`api/user/id`, userObject);
+//const addUser = userObject => axios.post(`api/user`, userObject);
 
-const updateUser = userObject => axios.put(`api/user/id`, userObject);
+const updateUser = userObject => axios.put(`api/user/updateUser/id`, userObject);
 
 export default {
-  addUser,
+  // addUser,
   getUserByEmail,
   getAllUsers,
   updateUser,

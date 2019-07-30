@@ -31,7 +31,7 @@ namespace FossilChaser.Controllers
                 return BadRequest("All formation information must be filled out.");
             }
 
-            var newFormation = _repository.AddFormation(createRequest.FormationName, createRequest.Founder, createRequest.Region, createRequest.State, createRequest.Country, createRequest.Latitude, createRequest.Longitude);
+            var newFormation = _repository.AddFormation(createRequest.FormationName, createRequest.Location, createRequest.Latitude, createRequest.Longitude);
 
             return Created($"api/formation/{newFormation.Id}", newFormation);
         }
@@ -74,9 +74,7 @@ namespace FossilChaser.Controllers
             public bool Validate(CreateFormationRequest requestToValidate)
             {
                 return string.IsNullOrEmpty(requestToValidate.FormationName)
-                    || string.IsNullOrEmpty(requestToValidate.Founder)
-                    || string.IsNullOrEmpty(requestToValidate.State)
-                    || string.IsNullOrEmpty(requestToValidate.Country);
+                    || string.IsNullOrEmpty(requestToValidate.Location);
             }
         }
     }
