@@ -6,16 +6,13 @@ import authRequests from '../../Data/authRequest';
 import userRequests from '../../Data/UserRequest';
 import './StarButton.scss';
 
-const defaultUser = {
-  id: 0,
-  email: ''
-}
+
 class StarButton extends React.Component {
   state =
     {
       favoriteFormations: [],
+      user: '',
       isFavorite: false,
-      user: defaultUser
     }
 
   
@@ -23,6 +20,7 @@ class StarButton extends React.Component {
     userRequests.getUserByEmail()
       .then((user) => {
         this.setState({ user });
+        console.log(user);
       })
       .catch((error) => {
         console.error(error);
@@ -30,8 +28,12 @@ class StarButton extends React.Component {
   }
 
   componentDidMount() {
-    this.setUserState();
-console.log("works")
+    let id = authRequests.getUid();
+    this.userInfo();
+      userRequests.getUserByEmail(id).then((user) => {
+        this.setState({ user });
+        console.log(user)
+      })
   }
 
   userInfo = () => {
