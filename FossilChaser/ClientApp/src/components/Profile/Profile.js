@@ -1,5 +1,4 @@
 import React from 'react';
-import { Label } from 'reactstrap';
 import './Profile.scss';
 import userRequests from '../../Data/UserRequest';
 

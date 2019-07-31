@@ -9,6 +9,7 @@ const getAllUsers = () => new Promise((resolve, reject) => {
     .then((result) => {
       if (result != null) {
         const allUsers = result.data;
+        console.log(allUsers)
         resolve(allUsers);
       }
     })
@@ -17,11 +18,24 @@ const getAllUsers = () => new Promise((resolve, reject) => {
     });
 });
 
+const getUserProfile = id => new Promise((resolve, reject) => {
+  axios
+    .get(`/api/user/getSingleUser/id`)
+    .then((res) => {
+      let user = res.data;
+      console.log(user)
+      resolve(user);
+    })
+    .catch(err => reject(err));
+});
+
+
 const getUserByEmail = () => new Promise((resolve, reject) => {
   const userEmail = authRequests.getUserEmail();
   getAllUsers()
     .then((users) => {
       const currentUser = users.find(user => user.email === userEmail);
+      console.log(users)
       resolve(currentUser);
     })
     .catch((error) => {
@@ -29,12 +43,12 @@ const getUserByEmail = () => new Promise((resolve, reject) => {
     });
 });
 
-const addUser = userObject => axios.post(`api/user/id`, userObject);
+//const addUser = userObject => axios.post(`api/user`, userObject);
 
-const updateUser = userObject => axios.put(`api/user/id`, userObject);
+const updateUser = userObject => axios.put(`api/user/updateUser/id`, userObject);
 
 export default {
-  addUser,
+  getUserProfile,
   getUserByEmail,
   getAllUsers,
   updateUser,

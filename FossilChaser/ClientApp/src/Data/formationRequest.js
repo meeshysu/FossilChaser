@@ -5,7 +5,6 @@ const getRequest = () => new Promise((resolve, reject) => {
     .get(`/api/formation/getAllFormations`)
     .then((res) => {
        const formation = res.data;
-       console.log('asdf');
       resolve(formation);
     })
     .catch(err => reject(err));
