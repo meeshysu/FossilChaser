@@ -10,22 +10,6 @@ state = {
   isFavorite: true,
 }
 
-static propTypes = {
-  clickToFavoriteButton: PropTypes.func,
-}
-
-componentDidMount() {
-  const { isFavorite } = this.state;
-  if (isFavorite === false) {
-    this.props.getAllFavoriteFormations();
-  }
-}
-
-changeIsFavState = () => {
-  const { isFavorite } = this.state;
-  this.setState({ isFavorite: !isFavorite });
-}
-
  starButtonEvent = () => {
   StarButton.clickToFavoriteButton();
  }

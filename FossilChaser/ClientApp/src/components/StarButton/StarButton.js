@@ -1,65 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import favFormationRequest from '../../Data/favoriteRequest';
+import userFavoriteRequest from '../../Data/userFavoriteRequest';
+import favoriteRequest from '../../Data/favoriteRequest';
+import authRequests from '../../Data/authRequest';
+import userRequests from '../../Data/UserRequest';
 import './StarButton.scss';
 
+const defaultUser = {
+  id: 0,
+  email: ''
+}
 class StarButton extends React.Component {
   state =
     {
       favoriteFormations: [],
+      isFavorite: false,
+      user: defaultUser
     }
 
-  static propTypes = {
-    isFavorite: PropTypes.bool,
-    changeIsFavState: PropTypes.func,
-    formationId: PropTypes.number,
-    userId: PropTypes.number,
-  }
-
-
-  getAllFavoriteFormations = () => {
-    favFormationRequest.getAllFavFormations()
-      .then((favoriteFormations) => {
-        this.setState({ favoriteFormations });
+  
+  setUserState = () => {
+    userRequests.getUserByEmail()
+      .then((user) => {
+        this.setState({ user });
+      })
+      .catch((error) => {
+        console.error(error);
       });
   }
 
   componentDidMount() {
-    this.getAllFavoriteFormations();
+    this.setUserState();
+console.log("works")
   }
 
-  changedStateForFavorite = () => {
-    const { changeIsFavState } = this.props;
-    this.addFavoriteFormationsToUser();
-    changeIsFavState();
-  };
-
-  addFavoriteFormationsToUser = () => {
-    const { userId, favoriteId, isFavorite } = this.props;
-    const usersFavoriteFormation = {
-      userId,
-      favoriteId,
-    };
-    if (!isFavorite) {
-      favFormationRequest.createFavoriteFormation(usersFavoriteFormation)
-        .then((favFormation) => {
-          this.setState({ currentFavFormation: favFormation.data });
-        });
-    } else {
-      this.deleteFavoriteFormations();
-    }
-  }
-
-  deleteLikedProperties = () => {
-    const { userId, favoriteId } = this.props;
-    favFormationRequest.getAllFavFormations()
-      .then((favoriteFormations) => {
-        const filterMatchingFormation = favoriteFormations.filter(lp => lp.userId === userId && lp.favoriteId === favoriteId);
-        const favoriteFormationId = filterMatchingFormation[0].id;
-        favFormationRequest.deleteFavorite(favoriteFormationId)
-          .then(() => {
-          });
-      });
+  userInfo = () => {
+    let uid = authRequests.getUid();
+    userFavoriteRequest.getUserFavoriteRequest(uid).then((userFavorites) => {
+      this.setState({ userFavorites });
+      console.log(userFavorites);
+    })
   }
 
   render() {
@@ -67,11 +47,11 @@ class StarButton extends React.Component {
     const clickToFavoriteButton = () => {
       if (isFavorite === false) {
         return (
-          <button className="btn" onClick={this.changedStateForFavorite}><i id="!isLiked" className="far fa-star" /></button>
+          <button className="btn" onClick={this.addToFavorite}><i id="!isLiked" className="far fa-star" /></button>
         );
       }
       return (
-        <button className="liked-button" onClick={this.changedStateForFavorite}><i id="isLiked" className="fas fa-star"></i></button>
+        <button className="liked-button" onClick={this.addToFavorite}><i id="isLiked" className="fas fa-star"></i></button>
       );
     };
     return (

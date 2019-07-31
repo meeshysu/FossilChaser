@@ -3,6 +3,7 @@ import {
   Button,
   Container,
 } from 'reactstrap';
+import firebase from 'firebase';
 import authRequests from '../../Data/authRequest';
 import './Auth.scss';
 

@@ -47,6 +47,8 @@ namespace FossilChaser
             services.AddTransient<FossilRepository>();
             services.AddTransient<FossilFormationRepository>();
             services.AddTransient<FavoriteRepository>();
+            services.AddTransient<UserFavoriteRepository>();
+
             services.AddSingleton<IConfiguration>(Configuration);
 
             // In production, the React files will be served from this directory
