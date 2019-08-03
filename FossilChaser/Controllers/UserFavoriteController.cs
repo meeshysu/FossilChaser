@@ -24,7 +24,7 @@ namespace FossilChaser.Controllers
         [HttpPost]
         public ActionResult AddUser(CreateUserFavoriteRequest createRequest)
         {
-            var newUserFavorite = _repository.AddUserFavorite(createRequest.UserId, createRequest.FavoriteId);
+            var newUserFavorite = _repository.AddUserFavorite(createRequest.UserId, createRequest.FormationId);
             return Created($"/api/userFavorite/{newUserFavorite.Id}", newUserFavorite);
 
         }
@@ -62,7 +62,7 @@ namespace FossilChaser.Controllers
             public bool Validate(CreateUserFavoriteRequest requestToValidate)
             {
                 return string.IsNullOrEmpty(requestToValidate.UserId.ToString())
-                    || string.IsNullOrEmpty(requestToValidate.FavoriteId.ToString());
+                    || string.IsNullOrEmpty(requestToValidate.FormationId.ToString());
             }
         }
     }

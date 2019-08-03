@@ -24,7 +24,7 @@ render() {
         Location={formation.location}
         
       </div>
-      <StarButton clickToFavoriteButton={this.props.clickToFavoriteButton}></StarButton>
+      <StarButton key={formation.id} formation={formation}></StarButton>
     </Popup>
   )
 }

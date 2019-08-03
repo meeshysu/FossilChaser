@@ -4,15 +4,18 @@ import favoriteRequest from '../../Data/favoriteRequest';
 import authRequests from '../../Data/authRequest';
 import userRequests from '../../Data/UserRequest';
 import userFavoriteRequest from '../../Data/userFavoriteRequest';
+import formationRequest from '../../Data/formationRequest';
 import './StarButton.scss';
+import { auth } from 'firebase';
 
 
 
 class StarButton extends React.Component {
   state =
-    {
-      favoriteFormations: [],
+    { 
       user: '',
+      formation: '',
+      favorite: '',
       isFavorite: false,
     }
 
@@ -37,6 +40,8 @@ class StarButton extends React.Component {
       })
   }
 
+  //I think I need to get the formation request as well as user for favorite?
+
   userInfo = () => {
     let uid = authRequests.getUid();
     userFavoriteRequest.getUserFavoriteRequest(uid).then((userFavorites) => {
@@ -45,16 +50,25 @@ class StarButton extends React.Component {
     })
   }
 
+  // formationInfo = () => {
+  //   //let id = formationRequest.getSingleFormation();
+  //   formationRequest.getRequest(this.props.formation.id).then((formation) => {
+  //     this.setState({ formation });
+  //     console.log(formation);
+  //   })
+  // }
+
   addToFavorite = () => {
     const { user } = this.state;
-    const { favorite } = this.props;
+    const { formation } = this.props;
     this.setState({ isFavorite: true })
-    const AddAUserFavorite = {
+    const AddAUserFavorite = { 
       userId: user.id,
-      favorite: favorite.id
+      formationId: formation.id,
     }
     console.log(AddAUserFavorite)
-    userFavoriteRequest.postUserFavoriteRequest(AddAUserFavorite);
+    userFavoriteRequest.postUserFavoriteRequest(AddAUserFavorite).then(result => console.log(result));
+    formationRequest.createFormation(AddAUserFavorite);
   }
 
   render() {
@@ -62,11 +76,11 @@ class StarButton extends React.Component {
     const clickToFavoriteButton = () => {
       if (isFavorite === false) {
         return (
-          <button className="btn" onClick={this.addToFavorite}><i id="!isLiked" className="far fa-star" /></button>
+          <button className="btn" onClick={this.addToFavorite}><i id="!isFavorite" className="far fa-star" /></button>
         );
       }
       return (
-        <button className="liked-button" onClick={this.addToFavorite}><i id="isLiked" className="fas fa-star"></i></button>
+        <button className="liked-button" onClick={this.addToFavorite}><i id="isFavorite" className="fas fa-star"></i></button>
       );
     };
     return (

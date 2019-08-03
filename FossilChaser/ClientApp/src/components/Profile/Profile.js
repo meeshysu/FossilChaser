@@ -1,6 +1,7 @@
 import React from 'react';
 import './Profile.scss';
 import userRequests from '../../Data/UserRequest';
+import MyPopop from '../../components/Popup/Popup';
 
 const defaultUser = {
   id: 0,

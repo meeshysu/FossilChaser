@@ -25,6 +25,7 @@ const getSingleFavorite = favoriteId => new Promise((resolve, reject) => {
 
 const deleteFavorite = favoriteId => axios.delete(`${apiUrl}/${favoriteId}`);
 
+
 export default {
   createFavoriteFormation,
   deleteFavorite,
