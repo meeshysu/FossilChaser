@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import userFavoriteRequest from '../../Data/userFavoriteRequest';
 import favoriteRequest from '../../Data/favoriteRequest';
 import authRequests from '../../Data/authRequest';
 import userRequests from '../../Data/UserRequest';
+import userFavoriteRequest from '../../Data/userFavoriteRequest';
 import './StarButton.scss';
+
 
 
 class StarButton extends React.Component {
@@ -25,12 +26,12 @@ class StarButton extends React.Component {
       .catch((error) => {
         console.error(error);
       });
-  }
+  } 
 
   componentDidMount() {
-    let id = authRequests.getUid();
+    let uid = authRequests.getUid();
     this.userInfo();
-      userRequests.getUserByEmail(id).then((user) => {
+      userRequests.getUserByEmail(uid).then((user) => {
         this.setState({ user });
         console.log(user)
       })
@@ -42,6 +43,18 @@ class StarButton extends React.Component {
       this.setState({ userFavorites });
       console.log(userFavorites);
     })
+  }
+
+  addToFavorite = () => {
+    const { user } = this.state;
+    const { favorite } = this.props;
+    this.setState({ isFavorite: true })
+    const AddAUserFavorite = {
+      userId: user.id,
+      favorite: favorite.id
+    }
+    console.log(AddAUserFavorite)
+    userFavoriteRequest.postUserFavoriteRequest(AddAUserFavorite);
   }
 
   render() {
@@ -62,4 +75,5 @@ class StarButton extends React.Component {
   }
 }
 
-export default StarButton;
+
+export default StarButton
