@@ -1,17 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import userFavoriteRequest from '../../Data/userFavoriteRequest';
 import favoriteRequest from '../../Data/favoriteRequest';
 import authRequests from '../../Data/authRequest';
 import userRequests from '../../Data/UserRequest';
+import userFavoriteRequest from '../../Data/userFavoriteRequest';
+import formationRequest from '../../Data/formationRequest';
 import './StarButton.scss';
+import { auth } from 'firebase';
+
 
 
 class StarButton extends React.Component {
   state =
-    {
-      favoriteFormations: [],
+    { 
       user: '',
+      formation: '',
+      favorite: '',
       isFavorite: false,
     }
 
@@ -25,16 +29,18 @@ class StarButton extends React.Component {
       .catch((error) => {
         console.error(error);
       });
-  }
+  } 
 
   componentDidMount() {
-    let id = authRequests.getUid();
+    let uid = authRequests.getUid();
     this.userInfo();
-      userRequests.getUserByEmail(id).then((user) => {
+      userRequests.getUserByEmail(uid).then((user) => {
         this.setState({ user });
         console.log(user)
       })
   }
+
+  //I think I need to get the formation request as well as user for favorite?
 
   userInfo = () => {
     let uid = authRequests.getUid();
@@ -44,16 +50,37 @@ class StarButton extends React.Component {
     })
   }
 
+  // formationInfo = () => {
+  //   //let id = formationRequest.getSingleFormation();
+  //   formationRequest.getRequest(this.props.formation.id).then((formation) => {
+  //     this.setState({ formation });
+  //     console.log(formation);
+  //   })
+  // }
+
+  addToFavorite = () => {
+    const { user } = this.state;
+    const { formation } = this.props;
+    this.setState({ isFavorite: true })
+    const AddAUserFavorite = { 
+      userId: user.id,
+      formationId: formation.id,
+    }
+    console.log(AddAUserFavorite)
+    userFavoriteRequest.postUserFavoriteRequest(AddAUserFavorite).then(result => console.log(result));
+    formationRequest.createFormation(AddAUserFavorite);
+  }
+
   render() {
     const { isFavorite } = this.props;
     const clickToFavoriteButton = () => {
       if (isFavorite === false) {
         return (
-          <button className="btn" onClick={this.addToFavorite}><i id="!isLiked" className="far fa-star" /></button>
+          <button className="btn" onClick={this.addToFavorite}><i id="!isFavorite" className="far fa-star" /></button>
         );
       }
       return (
-        <button className="liked-button" onClick={this.addToFavorite}><i id="isLiked" className="fas fa-star"></i></button>
+        <button className="liked-button" onClick={this.addToFavorite}><i id="isFavorite" className="fas fa-star"></i></button>
       );
     };
     return (
@@ -62,4 +89,5 @@ class StarButton extends React.Component {
   }
 }
 
-export default StarButton;
+
+export default StarButton

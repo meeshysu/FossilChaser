@@ -45,7 +45,7 @@ namespace FossilChaser.Controllers
         }
 
         //get single formation 
-        [HttpGet("getFormation/{id}")]
+        [HttpGet("getSingleFormation/{id}")]
         public ActionResult GetFormation(int id)
         {
             var singleFormation = _repository.GetFormation(id);
@@ -53,7 +53,7 @@ namespace FossilChaser.Controllers
         }
 
         //update formation
-        [HttpPut("{id}")]
+        [HttpPut("newFormation/{id}")]
         public ActionResult UpdateFormation(Formation formation)
         {
             var updateFormation = _repository.UpdateFormation(formation);

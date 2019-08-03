@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet';
-import FormationRequest from '../../Data/FormationRequest';
+import formationRequest from '../../Data/formationRequest';
 import userRequests from '../../Data/UserRequest';
 import authRequests from '../../Data/authRequest';
 import MyPopup from '../Popup/Popup';
@@ -24,6 +24,7 @@ class Map extends React.Component {
     changeIsFavState: PropTypes.func,
     getAllFavoriteFormations: PropTypes.func,
     popupItemComponent: PropTypes.func,
+    clickToFavoriteButton: PropTypes.func,
   }
 
   componentDidMount() {
@@ -49,7 +50,7 @@ class Map extends React.Component {
   }
 
   showFormations = () => {
-    FormationRequest.getRequest()
+    formationRequest.getRequest()
       .then((data) => {
         this.setState({ formations: data });
       })
@@ -63,9 +64,8 @@ class Map extends React.Component {
         key={formation.id}
         position={[formation.latitude, formation.longitude]}
       >
-        <MyPopup formation={formation}></MyPopup>
+        <MyPopup formation={formation} />
       </Marker>
-
     ));
     return formationCreation;
   }

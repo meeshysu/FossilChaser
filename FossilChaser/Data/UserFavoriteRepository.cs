@@ -17,14 +17,14 @@ namespace FossilChaser.Data
         {
             _connectionString = dbConfig.Value.ConnectionString;
         }
-        public UserFavorite AddUserFavorite (int userId, int favoriteId)
+        public UserFavorite AddUserFavorite (int userId, int formationId)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var joinUserWithFavorite = db.QueryFirstOrDefault<UserFavorite>(@"insert into [UserFavorite](userId, favoriteId)
+                var joinUserWithFavorite = db.QueryFirstOrDefault<UserFavorite>(@"insert into [UserFavorite](userId, formationId)
                                                                                         Output inserted.*
-                                                                                        Values (@userId, @favoriteId)",
-                                                                                        new { userId, favoriteId });
+                                                                                        Values (@userId, @formationId)",
+                                                                                        new { userId, formationId });
 
                 if (joinUserWithFavorite != null)
                 {
@@ -39,7 +39,7 @@ namespace FossilChaser.Data
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var getUserFavorite = db.Query<UserFavorite>(@"select * from customerProduct").ToList();
+                var getUserFavorite = db.Query<UserFavorite>(@"select * from userFavorite").ToList();
                 return getUserFavorite;
             }
 
@@ -62,10 +62,10 @@ namespace FossilChaser.Data
             {
                 var updateUserFavorite = db.QueryFirstOrDefault<UserFavorite>(@"update UserFavorite
                                                                                     Set userId = @userId,
-                                                                                        favoriteId = @favoriteId
+                                                                                        formationId = @formationId
                                                                                         output inserted.*
                                                                                         where id = @id",
-                                                                                        new { id = UserFavoriteInfo.Id, userId = UserFavoriteInfo.UserId, favoriteId = UserFavoriteInfo.FavoriteId });
+                                                                                        new { id = UserFavoriteInfo.Id, userId = UserFavoriteInfo.UserId, formationId = UserFavoriteInfo.FormationId });
                 return updateUserFavorite;
             }
             throw new Exception("Could not update user favorite.");
@@ -77,7 +77,7 @@ namespace FossilChaser.Data
             {
                 var getSingleUserFavorite = db.Query<UserFavorite>(@"select * From UserFavorite uf
                                                                                         Join [User] u on uf.UserId = u.id
-                                                                                        join Favorite f on uf.FavoriteId = f.id
+                                                                                        join Formation f on uf.FormationId = f.id
                                                                                         where u.userUid = @userUid",
                                                                                         new { userUid }).ToList();
                 return getSingleUserFavorite;
