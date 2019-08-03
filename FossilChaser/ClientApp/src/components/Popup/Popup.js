@@ -18,14 +18,12 @@ render() {
   const { formation } = this.props;
 
   return (
-    <Popup className='pop-up'>
-      <div className='popupDiv'>
+    <Popup>
         FormationName={formation.formationName}
         Location={formation.location}
-        
-      </div>
-      <StarButton key={formation.id} formation={formation}></StarButton>
+        <StarButton key={formation.id} formation={formation}></StarButton>
     </Popup>
+
   )
 }
 }
