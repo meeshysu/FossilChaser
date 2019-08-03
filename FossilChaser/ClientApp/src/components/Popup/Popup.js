@@ -21,9 +21,8 @@ render() {
     <Popup>
         FormationName={formation.formationName}
         Location={formation.location}
-        <StarButton key={formation.id} formation={formation}></StarButton>
+      <StarButton key={formation.id} formation={formation}></StarButton>
     </Popup>
-
   )
 }
 }

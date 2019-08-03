@@ -40,7 +40,7 @@ class Profile extends React.Component {
   }
 
 
-  
+
   render() {
     const { formation } = this.state;
 
