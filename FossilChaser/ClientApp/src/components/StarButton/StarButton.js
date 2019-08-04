@@ -36,27 +36,15 @@ class StarButton extends React.Component {
     this.userInfo();
       userRequests.getUserByEmail(uid).then((user) => {
         this.setState({ user });
-        console.log(user)
       })
   }
-
-  //I think I need to get the formation request as well as user for favorite?
 
   userInfo = () => {
     let uid = authRequests.getUid();
     userFavoriteRequest.getUserFavoriteRequest(uid).then((userFavorites) => {
       this.setState({ userFavorites });
-      console.log(userFavorites);
     })
   }
-
-  // formationInfo = () => {
-  //   //let id = formationRequest.getSingleFormation();
-  //   formationRequest.getRequest(this.props.formation.id).then((formation) => {
-  //     this.setState({ formation });
-  //     console.log(formation);
-  //   })
-  // }
 
   addToFavorite = () => {
     const { user } = this.state;
@@ -66,9 +54,8 @@ class StarButton extends React.Component {
       userId: user.id,
       formationId: formation.id,
     }
-    console.log(AddAUserFavorite)
     userFavoriteRequest.postUserFavoriteRequest(AddAUserFavorite).then(result => console.log(result));
-    formationRequest.createFormation(AddAUserFavorite);
+    formationRequest.createFormation(AddAUserFavorite).then(result => console.log(result));
   }
 
   render() {

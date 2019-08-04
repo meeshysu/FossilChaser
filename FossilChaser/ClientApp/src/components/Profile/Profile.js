@@ -1,58 +1,46 @@
 import React from 'react';
-import './Profile.scss';
+import authRequests from '../../Data/authRequest';
+import userFavoriteRequest from '../../Data/userFavoriteRequest';
 import userRequests from '../../Data/UserRequest';
-import MyPopop from '../../components/Popup/Popup';
-import MyPopup from '../../components/Popup/Popup';
+import MyPopup from '../Popup/Popup';
 
-const defaultUser = {
-  id: 0,
-  username: '',
-  email: '',
-};
 
 class Profile extends React.Component {
   state = {
-    user: defaultUser,
+    userFavorites: []
   }
 
   componentDidMount() {
-    this.setUserState();
+    let uid = authRequests.getUid();
+    this.userInfo();
+    userRequests.getUserByEmail(uid).then((user) => {
+      this.setState({ user });
+    })
   }
 
-  setUserState = () => {
-    userRequests.getUserByEmail()
-      .then((user) => {
-        this.setState({ user });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  userInfo = () => {
+    let uid = authRequests.getUid();
+    userFavoriteRequest.getUserFavoriteRequest(uid).then((userFavorites) => {
+      this.setState({ userFavorites });
+    });
   }
-
-  onSubmit = (userObject) => {
-    userRequests.updateUser(userObject)
-      .then(() => {
-        this.setUserState();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-
 
   render() {
-    const { formation } = this.state;
+    const { userFavorites } = this.state;
 
-    return (
+
+    const userFavoriteComponent = userFavorites.map(userFavorite => (
       <div>
-        <h1>Profile Page</h1>
-        <MyPopup
-        formation={formation}
-        />
+
+          userFavorite={userFavorite}
+          key={userFavorite.id}
+
       </div>
-    );
+    ));
+    return (
+      <div>{userFavoriteComponent}</div>
+    )
   }
 }
 
-export default Profile;
+export default Profile 
