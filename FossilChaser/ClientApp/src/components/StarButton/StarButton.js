@@ -7,7 +7,7 @@ import userFavoriteRequest from '../../Data/userFavoriteRequest';
 import formationRequest from '../../Data/formationRequest';
 import './StarButton.scss';
 import { auth } from 'firebase';
-
+import {Button} from 'reactstrap';
 
 
 class StarButton extends React.Component {
@@ -16,7 +16,7 @@ class StarButton extends React.Component {
       user: '',
       formation: '',
       favorite: '',
-      isFavorite: false,
+      buttonTextChange: <i class="fas fa-star"></i>
     }
 
   
@@ -49,7 +49,7 @@ class StarButton extends React.Component {
   addToFavorite = () => {
     const { user } = this.state;
     const { formation } = this.props;
-    this.setState({ isFavorite: true })
+    this.setState({ buttonTextChange: <i class="far fa-star"></i>});
     const AddAUserFavorite = { 
       userId: user.id,
       formationId: formation.id,
@@ -60,19 +60,10 @@ class StarButton extends React.Component {
 
   render() {
     const { isFavorite } = this.props;
-    const clickToFavoriteButton = () => {
-      if (isFavorite === false) {
-        return (
-          <button className="btn" onClick={this.addToFavorite}><i id="!isFavorite" className="far fa-star" /></button>
-        );
-      }
-      return (
-        <button className="liked-button" onClick={this.addToFavorite}><i id="isFavorite" className="fas fa-star"></i></button>
-      );
-    };
     return (
-      <div className="liked-formation">{clickToFavoriteButton()}</div>
-    );
+      <Button className="addToCart btn-sm" onClick={this.addToFavorite}>
+      {this.state.buttonTextChange}
+      </Button>    );
   }
 }
 
