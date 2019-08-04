@@ -1,67 +1,56 @@
-// import React from 'react';
-// import authRequests from '../../Data/authRequest';
-// import userFavoriteRequest from '../../Data/userFavoriteRequest';
-// import formationRequest from '../../Data/formationRequest';
-// import userRequests from '../../Data/UserRequest';
-// import MyPopup from '../Popup/Popup';
+import React from 'react';
+import authRequests from '../../Data/authRequest';
+import userFavoriteRequest from '../../Data/userFavoriteRequest';
+import formationRequest from '../../Data/formationRequest';
+import userRequests from '../../Data/UserRequest';
+import MyPopup from '../Popup/Popup';
 
-// const defaultFavorite = {
-//   id: 0,
-//   userId: 0,
-// }
 
-// const defaultUser = {
-//   id: 0,
-//   email: ''
-// }
+class Profile extends React.Component {
+  state = {
+    formations: [],
+    userFavs: []
+  }
 
-// const defaultFormation = {
-//   id: 0,
-//   formationName: '',
-//   formationLocation: ''
-// }
+  componentDidMount() {
+    this.getAllFavorites();
+    this.getUser();
+  }
 
-// class Profile extends React.Component {
-//   state = {
-//     formations: [],
-//     favorite: defaultFavorite,
-//     user: defaultUser
-//   }
+  getAllFavorites = () => {
+    userFavoriteRequest.getUserFavoriteRequest()
+    .then((userFavs) => {
+      this.setState({ userFavs });
+      console.log(userFavs)
+    })
+    .catch(err => console.error('error with getting users', err));
+  }
 
-//   componentDidMount() {
-//     this.getAllFavorites();
-//     this.getUser();
-//     this.getFormations();
-//   }
+  getUser = () => {
+    userRequests.getUserByEmail()
+      .then((user) => {
+        this.setState({ user });
+      })
+      .catch(err => console.error('error with getting users', err));
+  }
 
-//   getAllFavorites = () => {
-//     const userFavId = this.props.match.params.id;
-//     userFavoriteRequest.getSingleUserRequest(userFavId)
-//       .then((result) => {
-//         const favorite = result.data;
-//         this.setState({ favorite })
-//       })
-//       .catch(err => console.error('error with getting favorites', err));
-//   }
+  render() {
+    const { userFavs } = this.state;
 
-//   getUser = () => {
-//     userRequests.getUserByEmail()
-//       .then((user) => {
-//         this.setState({ user });
-//       })
-//       .catch(err => console.error('error with getting users', err));
-//   }
+    // const userFavoriteComponent = userFavs.map(userFav => (
+    //   <div key={userFav.id}>
+       
+    //    userFavorite={userFav}
+        
+    //   </div>
+    // ));
+    return (
+      <div>
+      <div>Stupid shit</div>
+      {/* <p>{userFavoriteComponent}</p> */}
+      </div>
+    )
+  }
+}
 
-//   render() {
-//     const { formation } = this.props;
-
-//     return (
-//       <MyPopup key={formation.id} formation={formation}>
-//         FormationName={formation.formationName}
-//         Location={formation.location}
-//       </MyPopup>
-//     )
-//   }
-// }
-
-// export default Profile 
+export default Profile 
