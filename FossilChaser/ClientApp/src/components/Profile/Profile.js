@@ -1,58 +1,67 @@
-import React from 'react';
-import './Profile.scss';
-import userRequests from '../../Data/UserRequest';
-import MyPopop from '../../components/Popup/Popup';
-import MyPopup from '../../components/Popup/Popup';
+// import React from 'react';
+// import authRequests from '../../Data/authRequest';
+// import userFavoriteRequest from '../../Data/userFavoriteRequest';
+// import formationRequest from '../../Data/formationRequest';
+// import userRequests from '../../Data/UserRequest';
+// import MyPopup from '../Popup/Popup';
 
-const defaultUser = {
-  id: 0,
-  username: '',
-  email: '',
-};
+// const defaultFavorite = {
+//   id: 0,
+//   userId: 0,
+// }
 
-class Profile extends React.Component {
-  state = {
-    user: defaultUser,
-  }
+// const defaultUser = {
+//   id: 0,
+//   email: ''
+// }
 
-  componentDidMount() {
-    this.setUserState();
-  }
+// const defaultFormation = {
+//   id: 0,
+//   formationName: '',
+//   formationLocation: ''
+// }
 
-  setUserState = () => {
-    userRequests.getUserByEmail()
-      .then((user) => {
-        this.setState({ user });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
+// class Profile extends React.Component {
+//   state = {
+//     formations: [],
+//     favorite: defaultFavorite,
+//     user: defaultUser
+//   }
 
-  onSubmit = (userObject) => {
-    userRequests.updateUser(userObject)
-      .then(() => {
-        this.setUserState();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
+//   componentDidMount() {
+//     this.getAllFavorites();
+//     this.getUser();
+//     this.getFormations();
+//   }
 
+//   getAllFavorites = () => {
+//     const userFavId = this.props.match.params.id;
+//     userFavoriteRequest.getSingleUserRequest(userFavId)
+//       .then((result) => {
+//         const favorite = result.data;
+//         this.setState({ favorite })
+//       })
+//       .catch(err => console.error('error with getting favorites', err));
+//   }
 
+//   getUser = () => {
+//     userRequests.getUserByEmail()
+//       .then((user) => {
+//         this.setState({ user });
+//       })
+//       .catch(err => console.error('error with getting users', err));
+//   }
 
-  render() {
-    const { formation } = this.state;
+//   render() {
+//     const { formation } = this.props;
 
-    return (
-      <div>
-        <h1>Profile Page</h1>
-        <MyPopup
-        formation={formation}
-        />
-      </div>
-    );
-  }
-}
+//     return (
+//       <MyPopup key={formation.id} formation={formation}>
+//         FormationName={formation.formationName}
+//         Location={formation.location}
+//       </MyPopup>
+//     )
+//   }
+// }
 
-export default Profile;
+// export default Profile 

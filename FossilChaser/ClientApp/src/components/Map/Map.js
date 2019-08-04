@@ -12,6 +12,8 @@ import './Map.scss';
 const defaultUser = {
   username: '',
   email: '',
+  x: 0,
+  y: 0
 };
 
 class Map extends React.Component {
@@ -49,6 +51,7 @@ class Map extends React.Component {
       });
   }
 
+
   showFormations = () => {
     formationRequest.getRequest()
       .then((data) => {
@@ -71,6 +74,7 @@ class Map extends React.Component {
   }
 
   render() {
+
     return (
       <div className="map-container">
         <LeafletMap
@@ -84,6 +88,7 @@ class Map extends React.Component {
           dragging={true}
           animate={true}
           easeLinearity={0.35}
+          ref='formationmap'
         >
           <TileLayer
             url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
@@ -93,6 +98,7 @@ class Map extends React.Component {
 
         </LeafletMap>
       </div>
+
     );
   };
 }

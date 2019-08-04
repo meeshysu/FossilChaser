@@ -2,6 +2,7 @@ import axios from 'axios';
 //import apiKeys from '../apikeys';
 import authRequests from '../Data/authRequest';
 
+const createUserRequest = (userInfo) => axios.post(`/api/userFavorite/updateUser/id`, userInfo);
 
 
 const getAllUsers = () => new Promise((resolve, reject) => {
@@ -9,7 +10,6 @@ const getAllUsers = () => new Promise((resolve, reject) => {
     .then((result) => {
       if (result != null) {
         const allUsers = result.data;
-        console.log(allUsers)
         resolve(allUsers);
       }
     })
@@ -35,7 +35,6 @@ const getUserByEmail = () => new Promise((resolve, reject) => {
   getAllUsers()
     .then((users) => {
       const currentUser = users.find(user => user.email === userEmail);
-      console.log(users)
       resolve(currentUser);
     })
     .catch((error) => {
@@ -50,6 +49,7 @@ const updateUser = userObject => axios.put(`api/user/updateUser/id`, userObject)
 export default {
   getUserProfile,
   getUserByEmail,
+  createUserRequest,
   getAllUsers,
   updateUser,
 };
