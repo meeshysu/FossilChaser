@@ -1,0 +1,24 @@
+.favorite-formation {
+  background-color: rgba(255, 255, 255, 0.151);
+  width: 215px;
+  height: 145px;
+  margin: 15% 20% 20% 0%;
+  padding: 10%;
+  text-align: center;
+}
+
+// .title {
+//   margin: auto;
+// }
+
+.flex-div {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.delete-me {
+  background-color: rgba(255, 255, 255, 0);
+  width: 45%;
+}
