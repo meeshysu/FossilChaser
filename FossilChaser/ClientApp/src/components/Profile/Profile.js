@@ -1,27 +1,25 @@
 import React from 'react';
-import authRequests from '../../Data/authRequest';
 import userFavoriteRequest from '../../Data/userFavoriteRequest';
 import formationRequest from '../../Data/formationRequest';
 import userRequests from '../../Data/UserRequest';
-import MyPopup from '../Popup/Popup';
-
 
 class Profile extends React.Component {
   state = {
     formations: [],
-    userFavs: []
+    userFavs: [],
+    user: {},
   }
 
   componentDidMount() {
-    this.getAllFavorites();
     this.getUser();
   }
 
-  getAllFavorites = () => {
+  getAllFavorites = (user) => {
     userFavoriteRequest.getUserFavoriteRequest()
-    .then((userFavs) => {
+    .then((favs) => {
+      const userFavs = favs.filter(fav => user.id === fav.userId)
       this.setState({ userFavs });
-      console.log(userFavs)
+      this.getFormations(userFavs);
     })
     .catch(err => console.error('error with getting users', err));
   }
@@ -30,24 +28,41 @@ class Profile extends React.Component {
     userRequests.getUserByEmail()
       .then((user) => {
         this.setState({ user });
+        this.getAllFavorites(user)
       })
       .catch(err => console.error('error with getting users', err));
   }
 
-  render() {
-    const { userFavs } = this.state;
+  getFormations = (userFavs) => {
+    const formationArray = [];
+    userFavs.forEach((userFav) => {
+      formationRequest.getSingleFormation(userFav.formationId)
+        .then((formation) => {
+          formationArray.push(formation);
+          if (formationArray.length === userFavs.length) {
+            this.setState({ formations: formationArray });
+          }
+        })
+        .catch()
+    })
+  }
 
-    // const userFavoriteComponent = userFavs.map(userFav => (
-    //   <div key={userFav.id}>
-       
-    //    userFavorite={userFav}
-        
-    //   </div>
-    // ));
+  render() {
+    const formations = [...this.state.formations];
+
+    const formationsComponent = formations.map(formation => (
+    <div key={formation.id}>
+      <div className='formation-div'>
+      <p>{formation.formationName}</p>
+      <p>{formation.location}</p>
+      </div>
+    </div>
+    ));
+
     return (
       <div>
-      <div>Stupid shit</div>
-      {/* <p>{userFavoriteComponent}</p> */}
+      <h1>Your Favorite Formations</h1>
+      {formationsComponent}
       </div>
     )
   }
