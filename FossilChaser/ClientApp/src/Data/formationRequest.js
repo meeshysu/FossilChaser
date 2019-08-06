@@ -16,7 +16,7 @@ const getRequest = () => new Promise((resolve, reject) => {
 
 const getSingleFormation = id => new Promise((resolve, reject) => {
   axios
-    .get(`/api/formation/getSingleFormation/id`)
+    .get(`/api/formation/getSingleFormation/${id}`)
     .then((res) => {
       let form = res.data;
       console.log(form)
