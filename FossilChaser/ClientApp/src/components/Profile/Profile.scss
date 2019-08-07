@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:900&display=swap');
+
+.favorite-formation {
+  font-family: 'Raleway', sans-serif;
+  background-image: url(../../Images/morrisonformation2.png);
+  width: 255px;
+  height: 210px;
+  margin: 15% 20% 20% 0%;
+  padding: 6%;
+  text-align: center;
+  color: white;
+  text-shadow: 1px 2px 2px black;
+  text-transform: uppercase;
+}
+
+// .title {
+//   margin: auto;
+// }
+
+.flex-div {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.delete-me {
+  background-color: rgba(255, 255, 255, 0);
+  width: 55%;
+  margin: auto;
+  margin-bottom: -5%;
+}

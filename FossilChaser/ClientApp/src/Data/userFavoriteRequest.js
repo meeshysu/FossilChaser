@@ -26,10 +26,12 @@ const getSingleUserRequest = () => new Promise((resolve, reject) => {
 
 const updateUserFavorite = userObject => axios.put(`api/userFavorite/updateUserFavorite/id`, userObject);
 
+const deleteUserFavorite = favoriteId => axios.delete(`api/userFavorite/deleteUserFavorite/${favoriteId}`);
 
 export default {
   postUserFavoriteRequest,
   getUserFavoriteRequest,
   updateUserFavorite,
-  getSingleUserRequest
+  getSingleUserRequest,
+  deleteUserFavorite
 }

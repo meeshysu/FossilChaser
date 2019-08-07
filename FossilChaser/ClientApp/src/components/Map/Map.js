@@ -5,19 +5,20 @@ import formationRequest from '../../Data/formationRequest';
 import userRequests from '../../Data/UserRequest';
 import authRequests from '../../Data/authRequest';
 import MyPopup from '../Popup/Popup';
-import StarButton from '../StarButton/StarButton';
+import fossilRequests from '../../Data/fossilRequest';
 
 import './Map.scss';
 
 const defaultUser = {
   username: '',
   email: '',
-  x: 0,
-  y: 0
+  lat: 0,
+  long: 0
 };
 
 class Map extends React.Component {
   state = {
+    fossil: [],
     formations: [],
     user: defaultUser,
   }
@@ -51,7 +52,6 @@ class Map extends React.Component {
       });
   }
 
-
   showFormations = () => {
     formationRequest.getRequest()
       .then((data) => {
@@ -74,13 +74,13 @@ class Map extends React.Component {
   }
 
   render() {
-
+    const { latitude, longitude } = this.state;
     return (
       <div className="map-container">
         <LeafletMap
-          center={[50.761667, -111.485]}
-          zoom={2}
-          maxZoom={17}
+          center={[39.2333335876465, -9.30000019073486]}
+          zoom={2.5}
+          maxZoom={10}
           attributionControl={true}
           zoomControl={true}
           doubleClickZoom={true}
@@ -91,6 +91,7 @@ class Map extends React.Component {
           ref='formationmap'
         >
           <TileLayer
+            noWrap={true}
             url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
           />
 
