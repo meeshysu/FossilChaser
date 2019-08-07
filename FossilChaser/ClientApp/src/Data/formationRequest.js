@@ -26,8 +26,9 @@ const getSingleFormation = id => new Promise((resolve, reject) => {
 });
 
 
+
 export default {
   getRequest,
   getSingleFormation,
-  createFormation
+  createFormation,
 };
