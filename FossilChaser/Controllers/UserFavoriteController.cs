@@ -57,6 +57,13 @@ namespace FossilChaser.Controllers
             return Ok(updateUserFavorite);
         }
 
+        [HttpDelete("deleteUserFavorite/{id}")]
+        public ActionResult DeleteFavorite(int id)
+        {
+            var deletedUserFavorite = _repository.DeleteFavorite(id);
+            return Ok(deletedUserFavorite);
+        }
+
         public class CreateUserFavoriteRequestValidator
         {
             public bool Validate(CreateUserFavoriteRequest requestToValidate)

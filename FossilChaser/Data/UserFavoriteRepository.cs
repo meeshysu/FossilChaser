@@ -83,5 +83,17 @@ namespace FossilChaser.Data
                 return getSingleUserFavorite;
             }
         }
+
+        public UserFavorite DeleteFavorite(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var deletedFavorite = db.QueryFirstOrDefault<UserFavorite>(@"delete
+                                                                       from UserFavorite
+                                                                       where FormationId = @id",
+                                                                       new { id });
+                return deletedFavorite;
+            }
+        }
     }
 }

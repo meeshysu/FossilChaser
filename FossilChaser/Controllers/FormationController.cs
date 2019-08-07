@@ -61,7 +61,7 @@ namespace FossilChaser.Controllers
         }
 
         //delete formation for admin purposes
-        [HttpDelete("{id}")]
+        [HttpDelete("deleteFormation/{id}")]
         public ActionResult DeleteFormation(int id)
         {
             var deletedFormation = _repository.DeleteFormation(id);
