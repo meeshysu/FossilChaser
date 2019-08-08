@@ -8,6 +8,10 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
+import brand from '../../Images/FossilChaser4.png';
+import favorites from '../../Images/Favorites.png';
+import map from '../../Images/Map.png';
+import logout from '../../Images/Logout.png';
 import './Navbar.scss';
 
 class MyNavbar extends React.Component {
@@ -24,12 +28,12 @@ class MyNavbar extends React.Component {
         return (
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink tag={RRNavLink} to='/map'>Map</NavLink>
+              <NavLink tag={RRNavLink} className='map' to='/map'><img src={map} alt='map'></img></NavLink>
             </NavItem>
             <NavItem>
-              <NavLink tag={RRNavLink} to='/profile'>Profile</NavLink>
+              <NavLink tag={RRNavLink} className='favorites' to='/favorites'><img src={favorites} alt='favorites'></img></NavLink>
             </NavItem>
-            <NavLink className='logout-link' onClick={logoutClick}>Logout</NavLink>
+            <NavLink className='logout-link' onClick={logoutClick}><img src={logout} alt='logout'></img></NavLink>
           </Nav>
         );
       }
@@ -39,7 +43,7 @@ class MyNavbar extends React.Component {
     return (
       <div className="my-navbar">
         <Navbar color="dark" dark expand="md">
-          <NavbarBrand href="/">Fossil Chaser</NavbarBrand>
+          <NavbarBrand href="/"><img className='navbar-brand' src={brand} alt='brand'></img></NavbarBrand>
           {buildLinks()}
         </Navbar>
       </div>

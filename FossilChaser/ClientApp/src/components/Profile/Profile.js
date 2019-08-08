@@ -3,6 +3,7 @@ import userFavoriteRequest from '../../Data/userFavoriteRequest';
 import formationRequest from '../../Data/formationRequest';
 import userRequests from '../../Data/UserRequest';
 import { Button } from 'reactstrap';
+import favoriteBanner from '../../Images/YourFavorites.png';
 import './Profile.scss';
 
 
@@ -85,7 +86,7 @@ class Profile extends React.Component {
 
     return (
       <div>
-      <h1 className='title'>Your Favorite Formations</h1>
+      <div className='title'><img className='favorite-banner' src={favoriteBanner} alt='favorite-banner'></img></div>
         <div className='flex-div'>
           {formationsComponent}
         </div>
