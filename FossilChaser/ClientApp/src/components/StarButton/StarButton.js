@@ -1,13 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import favoriteRequest from '../../Data/favoriteRequest';
 import authRequests from '../../Data/authRequest';
 import userRequests from '../../Data/UserRequest';
 import userFavoriteRequest from '../../Data/userFavoriteRequest';
 import formationRequest from '../../Data/formationRequest';
-import './StarButton.scss';
-import { auth } from 'firebase';
 import {Button} from 'reactstrap';
+import './StarButton.scss';
 
 
 class StarButton extends React.Component {
