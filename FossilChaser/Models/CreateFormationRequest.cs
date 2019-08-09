@@ -10,7 +10,9 @@ namespace FossilChaser.Models
         public int Id { get; set; }
         public string FormationName { get; set; }
         public string Location { get; set; }
+        public string Formed { get; set; }
         public float Latitude { get; set; }
         public float Longitude { get; set; }
+        public string Fossil { get; set; }
     }
 }

@@ -1,13 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import favoriteRequest from '../../Data/favoriteRequest';
 import authRequests from '../../Data/authRequest';
 import userRequests from '../../Data/UserRequest';
 import userFavoriteRequest from '../../Data/userFavoriteRequest';
 import formationRequest from '../../Data/formationRequest';
-import './StarButton.scss';
-import { auth } from 'firebase';
 import {Button} from 'reactstrap';
+import './StarButton.scss';
 
 
 class StarButton extends React.Component {
@@ -16,7 +13,7 @@ class StarButton extends React.Component {
       user: '',
       formation: '',
       favorite: '',
-      buttonTextChange: <i class="fas fa-star"></i>
+      buttonTextChange: <i class="far fa-star"></i>
     }
 
   
@@ -49,7 +46,7 @@ class StarButton extends React.Component {
   addToFavorite = () => {
     const { user } = this.state;
     const { formation } = this.props;
-    this.setState({ buttonTextChange: <i class="far fa-star"></i>});
+    this.setState({ buttonTextChange: <i class="fas fa-star"></i>});
     const AddAUserFavorite = { 
       userId: user.id,
       formationId: formation.id,

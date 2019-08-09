@@ -80,5 +80,17 @@ namespace FossilChaser.Data
             throw new System.Exception("Could not update favorite.");
         }
 
+        public Favorite DeleteFavorite(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var deletedFavorite = db.QueryFirstOrDefault<Favorite>(@"delete
+                                                                 from Favorite
+                                                                 where id = @id",
+                                                                 new { id });
+                return deletedFavorite;
+            }
+        }
+
     }
 }
