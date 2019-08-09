@@ -18,16 +18,16 @@ namespace FossilChaser.Data
             _connectionString = dbConfig.Value.ConnectionString;
         }
 
-        public Formation AddFormation(string formationName, string location, float latitude, float longitude, string fossil)
+        public Formation AddFormation(string formationName, string location, string formed, float latitude, float longitude, string fossil)
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var newFormation = db.QueryFirstOrDefault<Formation>(
-                                                                @"insert into Formation (formationName, location, latitude, longitude, fossil)
+                                                                @"insert into Formation (formationName, location, formed, latitude, longitude, fossil)
                                                                 Output inserted.*
-                                                                values (@formationName, @location, @latitude, @longitude, @fossil)
+                                                                values (@formationName, @location, @formed, @latitude, @longitude, @fossil)
                                                                 select * from Formation",
-                                                                new { formationName, location, latitude, longitude, fossil });
+                                                                new { formationName, location, formed, latitude, longitude, fossil });
 
                 if (newFormation != null)
                 {
@@ -66,6 +66,7 @@ namespace FossilChaser.Data
             {
                 var updatedFormation = db.QueryFirstOrDefault<Formation>(@"update Formation
                                         set formationName = @formationName,
+                                            formed = @formed,
                                             location = @location,
                                             latitude = @latitude,
                                             longitude = @longitude,
@@ -76,6 +77,7 @@ namespace FossilChaser.Data
                                                             {
                                                                 id = updateFormation.Id,
                                                                 formationName = updateFormation.FormationName,
+                                                                formed = updateFormation.Formed,
                                                                 location = updateFormation.Location,
                                                                 latitude = updateFormation.Latitude,
                                                                 longitude = updateFormation.Longitude,
