@@ -13,7 +13,7 @@ class StarButton extends React.Component {
       user: '',
       formation: '',
       favorite: '',
-      buttonTextChange: <i class="fas fa-star"></i>
+      buttonTextChange: <i class="far fa-star"></i>
     }
 
   
@@ -46,7 +46,7 @@ class StarButton extends React.Component {
   addToFavorite = () => {
     const { user } = this.state;
     const { formation } = this.props;
-    this.setState({ buttonTextChange: <i class="far fa-star"></i>});
+    this.setState({ buttonTextChange: <i class="fas fa-star"></i>});
     const AddAUserFavorite = { 
       userId: user.id,
       formationId: formation.id,

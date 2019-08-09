@@ -78,8 +78,8 @@ class Profile extends React.Component {
           <div className='card favorite-formation'>
             <p>{formation.formationName}</p>
             <p>{formation.location}</p>
-            <p>{formation.fossil}</p>
-            <Button id={formation.id} className='btn delete-me' onClick={this.deleteUserFavorite}> DELETE</Button>
+            <p>{formation.formed}</p>
+            <Button id={formation.id} className='btn delete-me' onClick={this.deleteUserFavorite}>DELETE</Button>
           </div>
         </div>
       </div>

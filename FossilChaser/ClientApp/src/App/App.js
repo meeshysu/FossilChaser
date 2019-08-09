@@ -70,7 +70,7 @@ class App extends React.Component {
               <Switch>
                 <PrivateRoute path='/' exact component={Map} authed={this.state.authed} />
                 <PrivateRoute path='/map' component={Map} authed={this.state.authed} />
-                <PrivateRoute path='/profile' component={Profile} authed={this.state.authed} />
+                <PrivateRoute path='/favorites' component={Profile} authed={this.state.authed} />
                 <PublicRoute path='/auth' component={Auth} authed={this.state.authed} />
               </Switch>
           </React.Fragment>
